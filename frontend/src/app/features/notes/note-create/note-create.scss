@@ -1,0 +1,47 @@
+.create-page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.create-card {
+  padding: 1.5rem;
+
+  h1 {
+    margin: 0 0 1rem;
+  }
+
+  mat-button-toggle-group {
+    margin-bottom: 1rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-top: 1rem;
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  .file-picker {
+    margin-bottom: 1rem;
+
+    .hint {
+      color: #6b7280;
+      font-size: 0.85rem;
+    }
+  }
+
+  .error {
+    color: #b91c1c;
+    font-size: 0.85rem;
+  }
+
+  button {
+    align-self: flex-start;
+    height: 40px;
+  }
+}

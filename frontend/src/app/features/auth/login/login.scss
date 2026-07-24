@@ -1,0 +1,45 @@
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 380px;
+  padding: 1.5rem;
+
+  h1 {
+    margin: 0 0 1rem;
+    font-size: 1.4rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  button {
+    margin-top: 0.5rem;
+    height: 40px;
+  }
+
+  .error {
+    color: #b91c1c;
+    font-size: 0.85rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .switch {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+}

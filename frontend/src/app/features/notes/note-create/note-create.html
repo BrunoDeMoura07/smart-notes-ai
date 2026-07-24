@@ -1,0 +1,44 @@
+<div class="create-page">
+  <mat-card class="create-card">
+    <h1>Nova nota</h1>
+
+    <mat-button-toggle-group [value]="mode()" (change)="setMode($event.value)">
+      <mat-button-toggle value="text">Colar texto</mat-button-toggle>
+      <mat-button-toggle value="file">Enviar arquivo</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Título (opcional)</mat-label>
+        <input matInput formControlName="title" />
+      </mat-form-field>
+
+      @if (mode() === 'text') {
+        <mat-form-field appearance="outline">
+          <mat-label>Conteúdo</mat-label>
+          <textarea matInput rows="10" formControlName="content" placeholder="Cole aqui o texto que você quer resumir..."></textarea>
+        </mat-form-field>
+      } @else {
+        <div class="file-picker">
+          <input type="file" accept=".pdf,audio/*" (change)="onFileSelected($event)" #fileInput />
+          <p class="hint">Aceita PDF ou arquivo de áudio (mp3, wav, m4a, ogg, flac, webm).</p>
+        </div>
+      }
+
+      @if (errorMessage()) {
+        <p class="error">{{ errorMessage() }}</p>
+      }
+
+      <button mat-flat-button color="primary" type="submit" [disabled]="loading()">
+        @if (loading()) {
+          <mat-spinner diameter="20" />
+        } @else {
+          <ng-container>
+            <mat-icon>send</mat-icon>
+            Criar nota
+          </ng-container>
+        }
+      </button>
+    </form>
+  </mat-card>
+</div>

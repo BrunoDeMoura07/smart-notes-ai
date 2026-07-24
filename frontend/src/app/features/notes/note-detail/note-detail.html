@@ -1,0 +1,63 @@
+<div class="detail-page">
+  <a routerLink="/notes" class="back-link">
+    <mat-icon>arrow_back</mat-icon>
+    Voltar
+  </a>
+
+  @if (loading()) {
+    <div class="centered">
+      <mat-spinner diameter="32" />
+    </div>
+  } @else if (loadError()) {
+    <p class="error">{{ loadError() }}</p>
+  } @else if (note(); as n) {
+    <mat-card class="detail-card">
+      <div class="detail-header">
+        <h1>{{ n.title || '(sem título)' }}</h1>
+        <app-status-badge [status]="n.status" />
+      </div>
+
+      @if (n.status === 'pending' || n.status === 'processing') {
+        <div class="processing">
+          <mat-spinner diameter="24" />
+          <span>Processando com IA... isso pode levar alguns segundos.</span>
+        </div>
+
+        @if (pollTimedOut()) {
+          <div class="timeout-notice">
+            <p>Ainda processando. Isso está demorando mais que o esperado.</p>
+            <button mat-stroked-button (click)="refresh()">Atualizar</button>
+          </div>
+        }
+      }
+
+      @if (n.status === 'failed') {
+        <div class="error-panel">
+          <mat-icon>error_outline</mat-icon>
+          <span>{{ n.error_message || 'Ocorreu um erro ao processar esta nota.' }}</span>
+        </div>
+      }
+
+      @if (n.status === 'completed') {
+        <section>
+          <h2>Resumo</h2>
+          <p>{{ n.summary || '(sem resumo)' }}</p>
+        </section>
+      }
+
+      @if (n.original_text) {
+        <section>
+          <h2>{{ n.source_type === 'audio' ? 'Transcrição' : 'Conteúdo original' }}</h2>
+          <p class="original-text">{{ n.original_text }}</p>
+        </section>
+      }
+
+      <div class="actions">
+        <button mat-stroked-button color="warn" [disabled]="deleting()" (click)="deleteNote()">
+          <mat-icon>delete</mat-icon>
+          Excluir
+        </button>
+      </div>
+    </mat-card>
+  }
+</div>

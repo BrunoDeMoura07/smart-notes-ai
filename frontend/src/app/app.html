@@ -1,0 +1,16 @@
+@if (isAuthenticated()) {
+  <mat-toolbar color="primary">
+    <span>Smart Notes AI</span>
+    <span class="spacer"></span>
+    <a mat-button routerLink="/notes">Minhas notas</a>
+    <a mat-button routerLink="/notes/new">Nova nota</a>
+    <button mat-button (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      Sair
+    </button>
+  </mat-toolbar>
+}
+
+<main class="page-content">
+  <router-outlet />
+</main>

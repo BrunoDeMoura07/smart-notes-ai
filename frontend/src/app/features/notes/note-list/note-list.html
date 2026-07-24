@@ -1,0 +1,58 @@
+<div class="notes-page">
+  <div class="notes-header">
+    <h1>Minhas notas</h1>
+    <a mat-flat-button color="primary" routerLink="/notes/new">
+      <mat-icon>add</mat-icon>
+      Nova nota
+    </a>
+  </div>
+
+  <div class="filters">
+    <mat-form-field appearance="outline">
+      <mat-label>Buscar</mat-label>
+      <input matInput [formControl]="searchControl" placeholder="título ou conteúdo" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Status</mat-label>
+      <mat-select [formControl]="statusControl">
+        <mat-option value="">Todos</mat-option>
+        <mat-option value="pending">Pendente</mat-option>
+        <mat-option value="processing">Processando</mat-option>
+        <mat-option value="completed">Concluído</mat-option>
+        <mat-option value="failed">Falhou</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  @if (loading()) {
+    <div class="centered">
+      <mat-spinner diameter="32" />
+    </div>
+  } @else if (notes().length === 0) {
+    <p class="empty">Nenhuma nota encontrada. Crie a primeira!</p>
+  } @else {
+    <div class="notes-grid">
+      @for (note of notes(); track note.id) {
+        <mat-card class="note-card">
+          <a [routerLink]="['/notes', note.id]" class="note-link">
+            <h3>{{ note.title || '(sem título)' }}</h3>
+            <p class="meta">{{ sourceTypeLabel(note.source_type) }} · {{ note.created_at | date: 'dd/MM/yyyy HH:mm' }}</p>
+          </a>
+          <div class="note-footer">
+            <app-status-badge [status]="note.status" />
+            <button
+              mat-icon-button
+              color="warn"
+              [disabled]="deletingId() === note.id"
+              (click)="deleteNote(note.id)"
+              aria-label="Excluir nota"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </mat-card>
+      }
+    </div>
+  }
+</div>
