@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: smart-notes-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: smart_notes
+      POSTGRES_PASSWORD: smart_notes_dev_password
+      POSTGRES_DB: smart_notes
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U smart_notes -d smart_notes"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
