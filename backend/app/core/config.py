@@ -12,7 +12,8 @@ class Settings(BaseSettings):
     jwt_expire_minutes: int = 60
     upload_dir: str = "storage/uploads"
     max_upload_size_mb: int = 25
-    cors_origins: str = "http://localhost:4200"
+    cors_origins: str = "http://127.0.0.1:4200"
+    cookie_secure: bool = False
     summarization_model: str = "sshleifer/distilbart-cnn-12-6"
     whisper_model_size: str = "small"
 

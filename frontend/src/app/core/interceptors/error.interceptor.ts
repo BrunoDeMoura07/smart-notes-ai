@@ -3,16 +3,15 @@ import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 
-import { TokenStorageService } from '../services/token-storage.service';
-
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
-  const tokenStorage = inject(TokenStorageService);
 
   return next(req).pipe(
     catchError((error: unknown) => {
-      if (error instanceof HttpErrorResponse && error.status === 401) {
-        tokenStorage.clearToken();
+      // /auth/me is used as a "am I logged in?" probe (app bootstrap, route guard) — a 401
+      // there just means "not logged in yet", not a session that needs to redirect mid-use.
+      const isSessionProbe = req.url.includes('/auth/me');
+      if (error instanceof HttpErrorResponse && error.status === 401 && !isSessionProbe) {
         if (!router.url.startsWith('/login')) {
           router.navigate(['/login']);
         }
